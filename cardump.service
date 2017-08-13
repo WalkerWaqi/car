@@ -1,0 +1,10 @@
+[Unit]
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -c "/usr/sbin/tcpdump -s 0 -i ens33 'tcp port 12345 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)' -w /opt/bin/logger/car_`date -u +%Y-%%m-%d_%%H-%M-%S`.pcap"
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target

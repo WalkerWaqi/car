@@ -1,0 +1,69 @@
+
+log4cplus.rootLogger=ALL, ROOT
+
+log4cplus.appender.STDOUT=log4cplus::ConsoleAppender
+log4cplus.appender.STDOUT.layout=log4cplus::PatternLayout
+log4cplus.appender.STDOUT.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S %Q} [%t] %-5p %-10c{2} %%%x%% - [%M] %m [%l] %n
+
+log4cplus.appender.ROOT=log4cplus::RollingFileAppender
+log4cplus.appender.ROOT.File=/opt/bin/logger/car.log
+log4cplus.appender.ROOT.MaxFileSize=100MB
+log4cplus.appender.ROOT.MaxBackupIndex=10
+log4cplus.appender.ROOT.layout=log4cplus::PatternLayout
+log4cplus.appender.ROOT.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S %Q} [%t] %-5p %-10c{2} %%%x%% - [%M] %m [%l] %n
+
+
+log4cplus.logger.session=ALL, SESSION
+#log4cplus.additivity.session=FALSE
+
+log4cplus.appender.SESSION=log4cplus::RollingFileAppender
+log4cplus.appender.SESSION.File=/opt/bin/logger/session.log
+log4cplus.appender.SESSION.MaxFileSize=100MB
+log4cplus.appender.SESSION.MaxBackupIndex=10
+log4cplus.appender.SESSION.layout=log4cplus::PatternLayout
+log4cplus.appender.SESSION.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S %Q} [%t] %-5p %-10c{2} %%%x%% - [%M] %m [%l] %n
+
+
+log4cplus.logger.timer=ALL, TIMER
+
+log4cplus.appender.TIMER=log4cplus::RollingFileAppender
+log4cplus.appender.TIMER.File=/opt/bin/logger/timer.log
+log4cplus.appender.TIMER.MaxFileSize=100MB
+log4cplus.appender.TIMER.MaxBackupIndex=10
+log4cplus.appender.TIMER.layout=log4cplus::PatternLayout
+log4cplus.appender.TIMER.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S %Q} [%t] %-5p %-10c{2} %%%x%% - [%M] %m [%l] %n
+
+
+log4cplus.logger.command=ALL, COMMAND
+
+log4cplus.appender.COMMAND=log4cplus::RollingFileAppender
+log4cplus.appender.COMMAND.File=/opt/bin/logger/command.log
+log4cplus.appender.COMMAND.MaxFileSize=100MB
+log4cplus.appender.COMMAND.MaxBackupIndex=10
+log4cplus.appender.COMMAND.layout=log4cplus::PatternLayout
+log4cplus.appender.COMMAND.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S %Q} [%t] %-5p %-10c{2} %%%x%% - [%M] %m [%l] %n
+
+
+log4cplus.logger.serialport=ALL, SERIALPORT
+
+log4cplus.appender.SERIALPORT=log4cplus::RollingFileAppender
+log4cplus.appender.SERIALPORT.File=/opt/bin/logger/serialport.log
+log4cplus.appender.SERIALPORT.MaxFileSize=100MB
+log4cplus.appender.SERIALPORT.MaxBackupIndex=10
+log4cplus.appender.SERIALPORT.layout=log4cplus::PatternLayout
+log4cplus.appender.SERIALPORT.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S %Q} [%t] %-5p %-10c{2} %%%x%% - [%M] %m [%l] %n
+
+
+log4cplus.logger.actor=ALL, ACTOR
+
+log4cplus.appender.ACTOR=log4cplus::RollingFileAppender
+log4cplus.appender.ACTOR.File=/opt/bin/logger/actor.log
+log4cplus.appender.ACTOR.MaxFileSize=100MB
+log4cplus.appender.ACTOR.MaxBackupIndex=10
+log4cplus.appender.ACTOR.layout=log4cplus::PatternLayout
+log4cplus.appender.ACTOR.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S %Q} [%t] %-5p %-10c{2} %%%x%% - [%M] %m [%l] %n
+
+
+log4cplus.appender.RemoteServer=log4cplus::SocketAppender
+log4cplus.appender.RemoteServer.host=localhost
+log4cplus.appender.RemoteServer.port=9000
