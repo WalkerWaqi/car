@@ -19,7 +19,7 @@ if(PROTOBUF_FOUND)
 else()
     message(FATAL_ERROR "protobuf library is needed but cant be found")
 endif()
-PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS ${CMAKE_CURRENT_SOURCE_DIR}/../../protocols/protocols/TevaProtocols.proto)
+PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS ${CMAKE_CURRENT_SOURCE_DIR}/protocol/TevaProtocols.proto)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/car

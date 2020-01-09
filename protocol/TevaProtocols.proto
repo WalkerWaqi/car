@@ -1,0 +1,125 @@
+syntax = "proto3";
+package agv;
+option csharp_namespace = "TevaMS.Protocols.Agv";
+
+
+enum CommandType {
+    CMD_UNKONWN      = 0;
+    CMD_ACK          = 1;
+    WAKEUP           = 2;
+    HEARTBEAT        = 3;
+    STATUS           = 4;
+    STATUS_NTY       = 5;
+    POSITION         = 6;
+    POSITION_SET     = 7;
+    POSITION_NTY     = 8;
+    CONFIG           = 9;
+    JOB_START        = 10;
+    JOB_DONE         = 11;
+    CANCEL_JOB       = 12;
+    TRIGGER          = 13;
+}
+
+message Wakeup {
+    uint32  expire     = 1;
+    bool    first_time = 2;
+    uint32  mode			 = 3;    // 0x00000001: auto; 0x00000002:reset;
+}
+
+message HeartBeat {
+    uint32  expire = 1;
+}
+
+message Status {
+    uint32          battery                       = 1;    // current battery, (0 -100)
+    uint32          blocking                      = 2;    // 0x1: mechanical blocking; 0x2: front blocking; 0x4: back blocking; 0x8: up blocking
+    bool            empty                         = 3;
+}
+
+message Position {
+    string  station_id   = 1;    // return rfid station id if exist, else return empty string.
+    uint32  offset       = 2;    // last rfid offset cm
+    uint32  offset_angle = 3;    // last rfid offset angle. example: 0 - 360
+    uint32  angle        = 4;    // agv direction angle. example: 0 - 360
+    uint32  speed        = 5;    // moving speed, unit: cm/s
+    uint64  time         = 6;    // arrived position time, FILETIME
+}
+
+message Positions {
+    repeated Position positions = 1;
+}
+
+message Config {
+    uint32  notify_interval   = 1;    // unit: millisecond
+}
+
+enum TriggerType {
+    TT_ANY          = 0;
+    TT_EXCHANGE     = 1;
+    TT_TAKE         = 2;
+}
+
+message Trigger {
+    TriggerType type = 1;    // type
+}
+
+enum ActionType {
+    AT_UNKNOWN      = 0;
+    AT_WAIT         = 1;  // params 0: int - sleep ms, -1 forever.
+    AT_FORWARD      = 2;  // params 0: int - speed; params 1: int - flags; params ...: (0-5bytes, front 2 bytes, back 2 bytes, up 2 bytes)sensor,(6-17bytes)rfids
+    AT_BACK         = 3;  // params 0: int - speed; params 1: int - flags; params ...: (0-5bytes, front 2 bytes, back 2 bytes, up 2 bytes)sensor,(6-17bytes)rfids
+    AT_TURN         = 4;  // params 0: int - angle (-360 - +360); params 1: (0-5bytes)sensor
+    AT_RUN          = 5;  // params 0: string - data
+    AT_RUN_FILE     = 6;  // params 0: string - filename
+    AT_START_CHARGE = 7;  // params 0: int - charge station id
+    AT_STOP_CHARGE  = 8;  // params 0: int - charge station id
+    AT_WAIT_TRIGGER = 9;
+}
+
+message Action {
+    ActionType  action    = 1;
+    repeated bytes params = 2;
+}
+
+message Job {
+    string    id             = 1;    // job id
+    repeated  Action actions = 2;    // job actions
+    uint32    action_index   = 3;
+    Position  position       = 4;
+    Status    status         = 5;
+}
+
+enum ResponseCode {
+    RC_SUCCEED         = 0;
+    RC_FAILED          = 1;
+    RC_EXCEPTION       = 2;
+    RC_PENDING         = 3;
+    RC_CANCEL          = 4;
+    RC_BLOCKING        = 5;
+    RC_TIMEOUT         = 6;
+    RC_UNKONWN_COMMAND = 7;
+    RC_DERAIL          = 8;
+}
+
+message Response {
+    ResponseCode code    = 1;
+    string       message = 2;
+}
+
+message Packet {
+    uint32      id      = 1;
+
+    CommandType command = 2;
+    
+    Response    resp    = 3;
+
+    oneof Expand {
+        HeartBeat heartbeat = 4;
+        Wakeup    wakeup    = 5;
+        Status    status    = 6;
+        Positions positions = 7;
+        Config    config    = 8;
+        Job       job       = 9;
+        Trigger   trigger   = 10;
+    }
+}
